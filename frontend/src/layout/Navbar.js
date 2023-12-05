@@ -24,8 +24,8 @@ const Navbar = (props) => {
             Authorization: `Bearer ${userToken}`,
           },
         });
-        const { user } = response.data || {};
-        setUserData(user);
+        const { foundUser } = response.data || {};
+        setUserData(foundUser);
       } catch (error) {
         console.error("Error on fetch user:", error);
       }
@@ -36,6 +36,7 @@ const Navbar = (props) => {
     }
   }, [loggedIn, userToken]);
 
+  console.log("User logged in:", userData);
   const fullName = userData.firstName + " " + userData.lastName;
   sessionStorage.setItem("user", fullName);
   const role = userData.role;
@@ -85,13 +86,9 @@ const Navbar = (props) => {
               </li>
               <span className="text-blue-700">{fullName}</span>
               <FaUser className="m-1" />
-<<<<<<< HEAD
               <span className="text-blue-700 font-semibold">
                 {role ? role : null}
               </span>
-=======
-              <span className="text-blue-700 font-semibold"> {role}</span>
->>>>>>> parent of 7766242 (add small corrections in navbar)
               <li className="md:mx-3 my-2">
                 <Button
                   variant="contained"

@@ -122,7 +122,9 @@ const loggedIn = async (req, res) => {
     const foundUser = await user.findOne({ _id: _id }); // Assuming your model is named User
     console.log(foundUser);
 
-    res.status(200).json({ message: "Authorized person" });
+    res
+      .status(200)
+      .json({ message: "Authorized person", foundUser: foundUser });
   } catch (error) {
     console.error(error);
     res.status(502).json({ message: "Server Error" });
