@@ -14,8 +14,6 @@ import Navbar from "./layout/Navbar";
 axios.defaults.withCredentials = true;
 const App = () => {
   const { loggedIn } = useContext(AuthContext);
-
- 
   return (
     <BrowserRouter>
       <Navbar />

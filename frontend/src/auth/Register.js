@@ -135,7 +135,8 @@ const Register = () => {
         active: formData.active,
       })
       .then((response) => {
-        const { data = null } = response?.data || {};
+        const { token } = response.data || {};
+        localStorage.setItem("token", token);
         setFormData(intialState);
         if (response.data.message) {
           console.log(response.data.message);

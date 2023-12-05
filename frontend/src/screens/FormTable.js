@@ -30,6 +30,8 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { useSnackbar } from "notistack";
 import { Link } from "react-router-dom";
 import AddForms from "./AddForms";
+import { useContext } from "react";
+import AuthContext from "../context/AuthContext";
 
 const FormTable = () => {
   const [user, setUser] = useState([]);
@@ -44,6 +46,7 @@ const FormTable = () => {
   // const [formData, setFormData] = useState([]);
   const { enqueueSnackbar } = useSnackbar();
 
+  const { loggedIn } = useContext(AuthContext);
   //dialog 1 for visualise
   const handleClickOpen1 = () => {
     setOpen1(true);
@@ -75,8 +78,10 @@ const FormTable = () => {
   };
 
   useEffect(() => {
-    getFormData();
-  }, []);
+    if (loggedIn === true) {
+      getFormData();
+    }
+  }, [loggedIn]);
 
   const viewRenderer = (params) => (
     <div>

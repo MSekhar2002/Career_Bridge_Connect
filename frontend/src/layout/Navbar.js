@@ -1,41 +1,19 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState } from "react";
 import { RiMenu3Fill } from "react-icons/ri";
 import { AiFillCloseCircle } from "react-icons/ai";
 import { Button } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { FaUser } from "react-icons/fa";
-import axios from "axios";
-
 import AuthContext from "../context/AuthContext";
+import UserContext from "../context/UserContext";
 
 const Navbar = (props) => {
   const navigate = useNavigate();
   const [menu, setMenu] = useState(false);
   const { loggedIn, getLoggedIn } = useContext(AuthContext);
-  const [userData, setUserData] = useState([]);
-  //username
-  const userToken = localStorage.getItem("token");
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const response = await axios.get("http://localhost:4000/loggedin", {
-          headers: {
-            Authorization: `Bearer ${userToken}`,
-          },
-        });
-        const { foundUser } = response.data || {};
-        setUserData(foundUser);
-      } catch (error) {
-        console.error("Error on fetch user:", error);
-      }
-    };
 
-    if (loggedIn === true && userToken) {
-      fetchUser();
-    }
-  }, [loggedIn, userToken]);
-
+  const { userData } = useContext(UserContext);
   console.log("User logged in:", userData);
   const fullName = userData.firstName + " " + userData.lastName;
   sessionStorage.setItem("user", fullName);
@@ -46,7 +24,7 @@ const Navbar = (props) => {
     await getLoggedIn();
     navigate("/");
   };
-
+  
   const navLinks = [
     {
       name: "Users",
