@@ -1,28 +1,25 @@
 import React, { useState } from "react";
-import { Button, TextField, Typography, Card } from "@mui/material";
+import { Button, TextField, Typography, Grid, Paper } from "@mui/material";
 import axios from "axios";
 import { useSnackbar } from "notistack";
 import { Link } from "react-router-dom";
-import { CiText } from "react-icons/ci";
-import { IoMdRadioButtonOn, IoIosCheckboxOutline } from "react-icons/io";
-import { GoSingleSelect } from "react-icons/go";
-import { MdOutlinePassword } from "react-icons/md";
 
 const AddForms = () => {
   const { enqueueSnackbar } = useSnackbar();
 
   const fields = [
-    { name: "text", icon: <CiText /> },
-    { name: "password", icon: <MdOutlinePassword /> },
-    { name: "radio", icon: <IoMdRadioButtonOn /> },
-    { name: "checkbox", icon: <IoIosCheckboxOutline /> },
+    { name: "text" },
+    { name: "password" },
+    { name: "radio" },
+    { name: "checkbox" },
+    { name: "select" },
     { name: "button" },
-    { name: "select", icon: <GoSingleSelect /> },
   ];
 
   const [addedFields, setAddedFields] = useState([]);
   const [allUserdata, setAllUserdata] = useState({});
   const [formName, setFormName] = useState("");
+  const [user, setUser] = useState("");
   const [formNameError, setFormNameError] = useState("");
 
   const handleSubmit = (field) => {
@@ -41,9 +38,8 @@ const AddForms = () => {
       },
     ]);
   };
-
+  const getData = localStorage.getItem("user");
   const URI = "http://localhost:4000";
-
   const handleChange = (index, event) => {
     const newFields = [...addedFields];
     newFields[index][event.target.name] = event.target.value;
@@ -84,11 +80,11 @@ const AddForms = () => {
 
     const formData = {
       formName: formName,
-      userName: sessionStorage.getItem("user"),
+      userName: "",
       formStructure: addedFields,
       userData: allUserdata,
     };
-    console.log(formData);
+
     try {
       await axios.post(`${URI}/form/submitform`, formData).then((response) => {
         setAddedFields([]);
@@ -193,9 +189,16 @@ const AddForms = () => {
 
   return (
     <div>
-      <div container className="flex p-10 justify-between">
-        <div>
-          <Card className="p-2 m-2">
+      <Paper
+        elevation={3}
+        className="flex flex-col items-center justify-center "
+      >
+        <Typography variant="h5" gutterBottom>
+          Form
+        </Typography>
+
+        <Grid container spacing={2} className="flex p-10">
+          <Grid item xs={6}>
             <TextField
               label="Form name"
               variant="outlined"
@@ -205,128 +208,118 @@ const AddForms = () => {
               error={Boolean(formNameError)}
               helperText={formNameError}
             />
-          </Card>
-          <Card className="h-100 p-5 m-4 grid grid-rows-3 grid-flow-col  ">
             {fields.map((field, index) => (
-              <div key={index} className="m-2">
+              <div key={index} className="mb-2">
+                {field.name}
                 <Button
                   onClick={() => handleSubmit(field)}
-                  color="primary"
                   variant="contained"
+                  color="secondary"
+                  style={{ marginLeft: 10 }}
                 >
-                  <div className=" m-2 w-10 h-10 flex items-center justify-center flex-col ">
-                    <div>{field.icon}</div>
-                    <Typography
-                      sx={{ fontSize: 14 }}
-                      color="text.secondary"
-                      gutterBottom
-                    >
-                      {field.name}{" "}
-                    </Typography>
-                  </div>
+                  ADD
                 </Button>
               </div>
             ))}
-          </Card>
-        </div>
-
-        <div item xs={6}>
-          {addedFields.map((field, index) => (
-            <div key={index} className="mb-4">
-              {field.edit && (
-                <div>
-                  {field.name && (
-                    <div>
-                      <label>Label:</label>
-                      <TextField
-                        type="text"
-                        name="label"
-                        value={field.label}
-                        onChange={(event) => handleChange(index, event)}
-                        variant="outlined"
-                        fullWidth
-                        margin="normal"
-                      />
-                    </div>
-                  )}
-                  {(field.name === "text" || field.name === "password") && (
-                    <div>
-                      <label>Placeholder:</label>
-                      <TextField
-                        type="text"
-                        name="placeholder"
-                        value={field.placeholder}
-                        onChange={(event) => handleChange(index, event)}
-                        variant="outlined"
-                        fullWidth
-                        margin="normal"
-                      />
-                    </div>
-                  )}
-                  {(field.name === "radio" || field.name === "select") && (
-                    <div>
-                      <label>Options:</label>
-                      <form onSubmit={(event) => handleAdd(index, event)}>
+          </Grid>
+          <Grid item xs={6}>
+            {addedFields.map((field, index) => (
+              <div key={index} className="mb-4">
+                {field.edit && (
+                  <div>
+                    {field.name && (
+                      <div>
+                        <label>Label:</label>
                         <TextField
                           type="text"
-                          name="newOption"
-                          placeholder="Enter a new option"
+                          name="label"
+                          value={field.label}
+                          onChange={(event) => handleChange(index, event)}
                           variant="outlined"
                           fullWidth
                           margin="normal"
                         />
-                        <Button type="submit" variant="outlined">
-                          ADD
-                        </Button>
-                      </form>
-                    </div>
-                  )}
-                </div>
-              )}
-              {field.label && <label>{field.label} : </label>}
-              {renderField(field, index)}
-              <Button
-                onClick={() => handleEdit(index)}
-                variant="outlined"
-                style={{ marginLeft: 10 }}
-              >
-                {field.edit ? "SAVE" : "EDIT"}
-              </Button>
-              <Button
-                onClick={() => deleteForm(index)}
-                variant="outlined"
-                style={{ marginLeft: 10 }}
-              >
-                Delete
-              </Button>
-            </div>
-          ))}
-          {addedFields?.length
-            ? addedFields && (
-                <div>
-                  {" "}
-                  <Button
-                    onClick={handleSubmitForm}
-                    variant="contained"
-                    color="primary"
-                    style={{ margin: 20 }}
-                  >
-                    Submit Form
-                  </Button>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    LinkComponent={Link}
-                    to="/formtable"
-                    style={{ margin: 20 }}
-                  >
-                    View Form
-                  </Button>
-                </div>
-              )
-            : null}
-        </div>
-      </div>
+                      </div>
+                    )}
+                    {(field.name === "text" || field.name === "password") && (
+                      <div>
+                        <label>Placeholder:</label>
+                        <TextField
+                          type="text"
+                          name="placeholder"
+                          value={field.placeholder}
+                          onChange={(event) => handleChange(index, event)}
+                          variant="outlined"
+                          fullWidth
+                          margin="normal"
+                        />
+                      </div>
+                    )}
+                    {(field.name === "radio" || field.name === "select") && (
+                      <div>
+                        <label>Options:</label>
+                        <form onSubmit={(event) => handleAdd(index, event)}>
+                          <TextField
+                            type="text"
+                            name="newOption"
+                            placeholder="Enter a new option"
+                            variant="contained"
+                            color="secondary"
+                            fullWidth
+                            margin="normal"
+                          />
+                          <Button
+                            type="submit"
+                            variant="contained"
+                            color="secondary"
+                          >
+                            ADD
+                          </Button>
+                        </form>
+                      </div>
+                    )}
+                  </div>
+                )}
+                {field.label && <label>{field.label} : </label>}
+                {renderField(field, index)}
+                <Button
+                  onClick={() => handleEdit(index)}
+                  variant="outlined"
+                  color="secondary"
+                  style={{ marginLeft: 10 }}
+                >
+                  {field.edit ? "SAVE" : "EDIT"}
+                </Button>
+                <Button
+                  onClick={() => deleteForm(index)}
+                  variant="outlined"
+                  color="error"
+                  style={{ marginLeft: 10 }}
+                >
+                  Delete
+                </Button>
+              </div>
+            ))}
+            <Button
+              onClick={handleSubmitForm}
+              variant="contained"
+              color="primary"
+              style={{ margin: 20 }}
+            >
+              Submit Form
+            </Button>
+            <Button
+              variant="contained"
+              color="success"
+              LinkComponent={Link}
+              to="/formtable"
+              style={{ margin: 20 }}
+            >
+              View Form
+            </Button>
+          </Grid>
+        </Grid>
+      </Paper>
     </div>
   );
 };

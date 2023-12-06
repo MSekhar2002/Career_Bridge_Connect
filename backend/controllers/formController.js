@@ -13,8 +13,6 @@ const getForm = async (req, res) => {
 const submitForm = async (req, res) => {
   try {
     const { formStructure, userName, formName } = req.body;
-    // const userData = res.locals;
-    // console.log("User:", userData);
     const userForm = new controller({
       formName,
       formStructure,

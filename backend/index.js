@@ -26,17 +26,7 @@ mongoose
   .then(() => console.log("DB Connected"))
   .catch((err) => console.error("DB Connection Error:", err));
 
-// Middleware to check and process authorization header
-app.use((req, res, next) => {
-  const token = req.headers.authorization;
 
-  if (token) {
-    // Assuming you're using a Bearer token, you can extract it like this:
-    req.token = token.split(" ")[1];
-  }
-
-  next();
-});
 
 // Routes
 app.use("/", Routes);
