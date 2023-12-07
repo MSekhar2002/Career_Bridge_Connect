@@ -405,6 +405,9 @@ const FormTable = () => {
             {viewSubmissions?.length > 0
               ? viewSubmissions.map((data, index) => (
                   <Card key={index} className="flex flex-col p-3 m-2">
+                    <div className="font-semibold m-2">
+                      Submission No : {index + 1}
+                    </div>
                     <div className="flex">
                       <p className="font-semibold m-2">Form Name :</p>
                       <p className="m-2  text-blue-900 font-semibold ">
@@ -423,7 +426,6 @@ const FormTable = () => {
                         {data?.date}
                       </p>
                     </div>
-
                     <div>
                       <p className="font-semibold m-2">Submission Data :</p>
                       <TableContainer component={Paper}>

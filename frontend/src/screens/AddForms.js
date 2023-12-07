@@ -6,8 +6,9 @@ import { Link } from "react-router-dom";
 import UserContext from "../context/UserContext";
 
 const AddForms = () => {
-  const { enqueueSnackbar } = useSnackbar();
   const { userData } = useContext(UserContext);
+  const { enqueueSnackbar } = useSnackbar();
+
   const fields = [
     { name: "text" },
     { name: "password" },
@@ -38,6 +39,7 @@ const AddForms = () => {
       },
     ]);
   };
+  const getData = localStorage.getItem("user");
   const URI = "http://localhost:4000";
   const handleChange = (index, event) => {
     const newFields = [...addedFields];
@@ -190,10 +192,10 @@ const AddForms = () => {
     <div>
       <Paper
         elevation={3}
-        className="flex flex-col items-center justify-center "
+        className="flex flex-col items-center justify-center mt-5 "
       >
         <Typography variant="h5" gutterBottom>
-          Form
+          Form Builder
         </Typography>
 
         <Grid container spacing={2} className="flex p-10">
@@ -262,16 +264,12 @@ const AddForms = () => {
                             type="text"
                             name="newOption"
                             placeholder="Enter a new option"
-                            variant="contained"
+                            variant="outlined"
                             color="secondary"
-                            fullWidth
+                            fullWidth="md"
                             margin="normal"
                           />
-                          <Button
-                            type="submit"
-                            variant="contained"
-                            color="secondary"
-                          >
+                          <Button type="submit" variant="outlined">
                             ADD
                           </Button>
                         </form>
