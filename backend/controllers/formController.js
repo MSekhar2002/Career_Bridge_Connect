@@ -74,4 +74,26 @@ const addSubmission = async (req, res) => {
   }
 };
 
-module.exports = { submitForm, getForm, updateForm, deleteForm, addSubmission };
+const getSingleSubmission = async (req, res) => {
+  try {
+    const { id } = req.params || {};
+    const findForm = await controller.findById(id);
+    if (!findForm) {
+      return res.status(404).send({ message: "Form not found" });
+    }
+    return res
+      .status(200)
+      .send({ message: "Submitted data to show", RequestedForm: findForm });
+  } catch (error) {
+    return res.status(500).send({ message: "Server error", error: error });
+  }
+};
+
+module.exports = {
+  submitForm,
+  getForm,
+  updateForm,
+  deleteForm,
+  addSubmission,
+  getSingleSubmission,
+};
