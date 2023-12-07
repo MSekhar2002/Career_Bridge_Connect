@@ -38,10 +38,10 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useSnackbar } from "notistack";
 import { Link } from "react-router-dom";
-import AddForms from "./AddForms";
 import { useContext } from "react";
 import AuthContext from "../context/AuthContext";
 import UserContext from "../context/UserContext";
+import UpdateForms from "./UpdateForms";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -75,6 +75,7 @@ const FormTable = () => {
   const [submissions, setSubmissions] = useState([]);
   const [viewSubmissions, setViewSubmissions] = useState([]);
   const { enqueueSnackbar } = useSnackbar();
+  const [updateData, setUpdateData] = useState([]);
 
   const { loggedIn } = useContext(AuthContext);
 
@@ -192,8 +193,11 @@ const FormTable = () => {
     setInputValues(initialState);
   };
 
-  const handleUpdate = () => {
+  const handleUpdate = (data) => {
     handleClickOpen2();
+    setUpdateData(() => {
+      return data;
+    });
   };
 
   const handleDelete = async (id) => {
@@ -240,6 +244,7 @@ const FormTable = () => {
           if (submissions) {
             setSubmissions((prev) => [newSubmission, ...prev]);
           }
+          enqueueSnackbar(response?.data?.message, { variant: "success" });
         });
 
       console.log("Form updated successfully");
@@ -248,9 +253,19 @@ const FormTable = () => {
       getFormData();
     } catch (error) {
       console.error(error.message);
+      enqueueSnackbar(error?.data?.message, { variant: "error" });
     }
   };
 
+  const handleFormStructureUpdate = (updatedData) => {
+    console.log("Updated data received in FormTable:", updatedData);
+    handleClose2();
+    getFormData();
+  };
+
+  const handleFormEditClose = () => {
+    handleClose2();
+  };
   return (
     <div>
       <div className="flex justify-end m-5">
@@ -378,20 +393,12 @@ const FormTable = () => {
       <Dialog open={open2} onClose={handleClose2}>
         <DialogTitle>Edit Form </DialogTitle>
         <DialogContent>
-          <AddForms />
+          <UpdateForms
+            updateData={updateData}
+            onDataFormUpdate={handleFormStructureUpdate}
+            onDataFormClose={handleFormEditClose}
+          />
         </DialogContent>
-        <DialogActions>
-          <div className="flex justify-between">
-            <div className="m-2">
-              <Button variant="contained" color="error">
-                Cancel
-              </Button>
-            </div>
-            <div className="m-2">
-              <Button variant="contained">Submit</Button>
-            </div>
-          </div>
-        </DialogActions>
       </Dialog>
 
       <Dialog
@@ -421,7 +428,7 @@ const FormTable = () => {
                       </p>
                     </div>
                     <div className="flex">
-                      <p className="font-semibold m-2">Submission Date :</p>
+                      <p className="font-semibold m-2">Submission At :</p>
                       <p className="m-2  text-blue-900 font-semibold ">
                         {data?.date}
                       </p>
@@ -464,7 +471,7 @@ const FormTable = () => {
                     </div>
                   </Card>
                 ))
-              : null}
+              : "No Submissions Available"}
             <Card></Card>
           </DialogContentText>
         </DialogContent>

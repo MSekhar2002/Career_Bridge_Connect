@@ -28,13 +28,26 @@ const submitForm = async (req, res) => {
 
 const updateForm = async (req, res) => {
   try {
-    const { _id } = req.params || req.body;
-    const { formStructure, submissions } = req.body;
-    await controller.findByIdAndUpdate(_id, { formStructure, submissions });
-    res.status(200).send({ message: "Form updated successfully", submissions });
+    const { id } = req.params || req.body;
+    const { formStructure, formName } = req.body;
+    const updatedData = await controller.findByIdAndUpdate(
+      id,
+      { formStructure, formName },
+      {
+        new: true,
+      }
+    );
+    if (!updatedData) {
+      return res.status(400).send({ message: "Form not found" });
+    }
+    return res.status(200).send({
+      message: "Form updated successfully",
+      formStructure: formStructure,
+      formName: formName,
+    });
   } catch (error) {
     console.error(error);
-    res.status(500).send({ message: "Server error" });
+    return res.status(500).send({ message: "Server error" });
   }
 };
 

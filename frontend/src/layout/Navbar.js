@@ -14,7 +14,6 @@ const Navbar = (props) => {
   const { loggedIn, getLoggedIn } = useContext(AuthContext);
 
   const { userData } = useContext(UserContext);
-  console.log("User logged in:", userData);
   const fullName = userData.firstName + " " + userData.lastName;
   sessionStorage.setItem("user", fullName);
   const role = userData.role;
@@ -24,7 +23,7 @@ const Navbar = (props) => {
     await getLoggedIn();
     navigate("/");
   };
-  
+
   const navLinks = [
     {
       name: "Users",

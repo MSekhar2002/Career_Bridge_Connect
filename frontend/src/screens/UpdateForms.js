@@ -1,8 +1,6 @@
 import React, { useContext, useState } from "react";
 import { Button, TextField, Typography, Grid, Paper } from "@mui/material";
-import axios from "axios";
 import { useSnackbar } from "notistack";
-import { Link } from "react-router-dom";
 import UserContext from "../context/UserContext";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -10,8 +8,16 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
+import axios from "axios";
 
-const AddForms = () => {
+const UpdateForms = ({ updateData, onDataFormUpdate, onDataFormClose }) => {
+  const oldForm = [updateData];
+  console.log(oldForm);
+
+  const id = oldForm[0]?._id;
+
+  console.log(id);
+
   const { userData } = useContext(UserContext);
   const { enqueueSnackbar } = useSnackbar();
 
@@ -24,10 +30,11 @@ const AddForms = () => {
     { name: "button" },
   ];
 
-  let [addedFields, setAddedFields] = useState([]);
+  const [addedFields, setAddedFields] = useState(oldForm[0]?.formStructure);
   const [allUserdata, setAllUserdata] = useState({});
-  let [formName, setFormName] = useState("");
+  const [formName, setFormName] = useState(oldForm[0]?.formName);
   const [formNameError, setFormNameError] = useState("");
+
   const handleSubmit = (field) => {
     setAddedFields([
       ...addedFields,
@@ -90,22 +97,28 @@ const AddForms = () => {
       userData: allUserdata,
     };
 
-    try {
-      await axios.post(`${URI}/form/submitform`, formData).then((response) => {
-        setAddedFields([]);
-        setAllUserdata({});
-        if (response.data.message) {
-          console.log(response.data.message);
-          enqueueSnackbar(response.data.message, { variant: "success" });
+    await onDataFormUpdate(formData);
+
+    await axios
+      .patch(`${URI}/form/updateform/${id}`, {
+        formStructure: formData?.formStructure,
+        formName: formData?.formName,
+      })
+      .then((response) => {
+        console.log(response);
+        if (response?.data && response?.data?.message) {
+          enqueueSnackbar(response?.data?.message, { variant: "success" });
+        }
+      })
+      .catch((error) => {
+        if (error?.data && error?.data?.message) {
+          enqueueSnackbar(error?.data?.message, { variant: "success" });
         }
       });
-    } catch (error) {
-      console.error("Error submitting form:", error);
-      if (error.data.message) {
-        console.log(error.data.message);
-        enqueueSnackbar(error.data.message, { variant: "success" });
-      }
-    }
+  };
+
+  const handleCloseForm = () => {
+    onDataFormClose();
   };
 
   const deleteForm = (index) => {
@@ -135,7 +148,7 @@ const AddForms = () => {
         return (
           <div>
             {field.options.map((option) => (
-              <div key={option}>
+              <div className="m-1" key={option}>
                 <input
                   type="radio"
                   name="value"
@@ -144,11 +157,12 @@ const AddForms = () => {
                   onChange={(event) => handleChange(index, event)}
                   className="form-radio"
                 />
-                <label htmlFor={option}>{option}</label>
+                <label htmlFor={option} className="mx-2">{option}</label>
                 {field.edit && (
                   <Button
                     onClick={() => handleDelete(index, option)}
                     variant="contained"
+                    style={{ margin: "5px" }}
                   >
                     DELETE
                   </Button>
@@ -230,7 +244,7 @@ const AddForms = () => {
                         <Button
                           onClick={() => handleSubmit(field)}
                           variant="contained"
-                          color="secondary"
+                          color="primary"
                         >
                           ADD
                         </Button>
@@ -240,26 +254,6 @@ const AddForms = () => {
                 </TableBody>
               </Table>
             </TableContainer>
-
-            <div>
-              <Button
-                onClick={handleSubmitForm}
-                variant="contained"
-                color="primary"
-                style={{ margin: 20 }}
-              >
-                Submit Form
-              </Button>
-              <Button
-                variant="contained"
-                color="success"
-                LinkComponent={Link}
-                to="/formtable"
-                style={{ margin: 20 }}
-              >
-                View Form
-              </Button>
-            </div>
           </div>
           <Grid item xs={6}>
             {addedFields.map((field, index) => (
@@ -324,7 +318,7 @@ const AddForms = () => {
                 <Button
                   onClick={() => handleEdit(index)}
                   variant="contained"
-                  color="secondary"
+                  color="inherit"
                   className="m-2"
                   style={{ marginLeft: 10 }}
                 >
@@ -344,8 +338,26 @@ const AddForms = () => {
           </Grid>
         </Grid>
       </Paper>
+      <div className="flex justify-end">
+        <Button
+          onClick={handleCloseForm}
+          variant="contained"
+          color="error"
+          style={{ margin: 20 }}
+        >
+          Close
+        </Button>
+        <Button
+          onClick={handleSubmitForm}
+          variant="contained"
+          color="success"
+          style={{ margin: 20 }}
+        >
+          Update
+        </Button>
+      </div>
     </div>
   );
 };
 
-export default AddForms;
+export default UpdateForms;
