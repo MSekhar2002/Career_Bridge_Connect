@@ -1,12 +1,13 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Button, TextField, Typography, Grid, Paper } from "@mui/material";
 import axios from "axios";
 import { useSnackbar } from "notistack";
 import { Link } from "react-router-dom";
+import UserContext from "../context/UserContext";
 
 const AddForms = () => {
   const { enqueueSnackbar } = useSnackbar();
-
+  const { userData } = useContext(UserContext);
   const fields = [
     { name: "text" },
     { name: "password" },
@@ -19,7 +20,6 @@ const AddForms = () => {
   const [addedFields, setAddedFields] = useState([]);
   const [allUserdata, setAllUserdata] = useState({});
   const [formName, setFormName] = useState("");
-  const [user, setUser] = useState("");
   const [formNameError, setFormNameError] = useState("");
 
   const handleSubmit = (field) => {
@@ -38,7 +38,6 @@ const AddForms = () => {
       },
     ]);
   };
-  const getData = localStorage.getItem("user");
   const URI = "http://localhost:4000";
   const handleChange = (index, event) => {
     const newFields = [...addedFields];
@@ -80,7 +79,7 @@ const AddForms = () => {
 
     const formData = {
       formName: formName,
-      userName: "",
+      userName: userData?.firstName,
       formStructure: addedFields,
       userData: allUserdata,
     };

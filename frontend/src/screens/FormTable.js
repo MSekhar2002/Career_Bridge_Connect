@@ -32,18 +32,19 @@ import { Link } from "react-router-dom";
 import AddForms from "./AddForms";
 import { useContext } from "react";
 import AuthContext from "../context/AuthContext";
+import UserContext from "../context/UserContext";
 
 const FormTable = () => {
+  const { userData } = useContext(UserContext);
   const [user, setUser] = useState([]);
   const [selectedFormId, setSelectedFormId] = useState(null);
   const [open1, setOpen1] = useState(false);
   const [open2, setOpen2] = useState(false);
-
   const [visualiseData, setVisualiseData] = useState([]);
   const [formStructure, setFormStructure] = useState([]);
   const [inputValues, setInputValues] = useState({});
   const [submissions, setSubmissions] = useState([]);
-  // const [formData, setFormData] = useState([]);
+
   const { enqueueSnackbar } = useSnackbar();
 
   const { loggedIn } = useContext(AuthContext);
@@ -133,6 +134,7 @@ const FormTable = () => {
     }, {});
     setVisualiseData([data]);
     setFormStructure(formStructure || []);
+    setInputValues({});
     setInputValues(initialState);
   };
 
@@ -161,37 +163,34 @@ const FormTable = () => {
 
   const handleVisualiseFormSubmit = async () => {
     console.log("Entered Values:", inputValues);
-    console.log(visualiseData[0]);
-    const { formName, userName, formStructure, _id } = visualiseData[0];
-
-    setSubmissions((prev) => {
-      const newSubmission = {
-        formName: formName,
-        userName: userName,
-        formStructure: formStructure,
-        submissions: [{ ...inputValues }],
-        formSubmissionDate: new Date().toLocaleString(),
-      };
-      const newData = [...prev, newSubmission];
-
-      return newData;
-    });
-
-    // setFormData(() => {
-    //   const finalSubmission = {
-    //     formName: formName,
-    //     userName: userName,
-    //     formStructure: formStructure,
-    //     submissions: [...dataSubmissions],
-    //     Date: date,
-    //   };
-    //   return finalSubmission;
-    // });
 
     try {
-      await axios.patch(`${URI}/form/updateform/${_id}`, submissions);
+      const { formName, formStructure, _id } = visualiseData[0];
+
+      const newSubmission = {
+        formName: formName,
+        submittedBy: userData?.firstName,
+        formStructure: formStructure,
+        date: new Date().toLocaleString(),
+        data: inputValues,
+        ...submissions,
+      };
+
+      await axios
+        .post(`${URI}/form/addsubmission/${_id}`, {
+          submissions: newSubmission,
+        })
+        .then((response) => {
+          console.log(response);
+          const { submissions } = response.data || {};
+          if (submissions) {
+            setSubmissions((prev) => [newSubmission, ...prev]);
+          }
+        });
+
       console.log("Form updated successfully");
       setSelectedFormId(null);
+      handleClose1();
     } catch (error) {
       console.error(error.message);
     }

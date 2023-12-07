@@ -28,10 +28,10 @@ const submitForm = async (req, res) => {
 
 const updateForm = async (req, res) => {
   try {
-    const { id } = req.params;
+    const { _id } = req.params || req.body;
     const { formStructure, submissions } = req.body;
-    await controller.findByIdAndUpdate(id, { formStructure, submissions });
-    res.status(200).send({ message: "Form updated successfully" });
+    await controller.findByIdAndUpdate(_id, { formStructure, submissions });
+    res.status(200).send({ message: "Form updated successfully", submissions });
   } catch (error) {
     console.error(error);
     res.status(500).send({ message: "Server error" });
@@ -55,4 +55,23 @@ const deleteForm = async (req, res) => {
   }
 };
 
-module.exports = { submitForm, getForm, updateForm, deleteForm };
+const addSubmission = async (req, res) => {
+  try {
+    const { id } = req.params || req.body;
+    const { submissions } = req.body;
+    const existingForm = await controller.findById(id);
+    if (!existingForm) {
+      return res.status(404).send({ message: "Form not found" });
+    }
+    existingForm.submissions.push(submissions);
+    await existingForm.save();
+    res
+      .status(200)
+      .send({ message: "Submission added successfully", form: existingForm });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ message: "Server error" });
+  }
+};
+
+module.exports = { submitForm, getForm, updateForm, deleteForm, addSubmission };
