@@ -10,6 +10,7 @@ import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
+import instance from "../axios/axios";
 
 const AddForms = () => {
   const { userData } = useContext(UserContext);
@@ -44,7 +45,6 @@ const AddForms = () => {
       },
     ]);
   };
-  const URI = "http://localhost:4000";
   const handleChange = (index, event) => {
     const newFields = [...addedFields];
     newFields[index][event.target.name] = event.target.value;
@@ -91,7 +91,7 @@ const AddForms = () => {
     };
 
     try {
-      await axios.post(`${URI}/form/submitform`, formData).then((response) => {
+      await instance.post(`/form/submitform`, formData).then((response) => {
         setAddedFields([]);
         setAllUserdata({});
         if (response.data.message) {

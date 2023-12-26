@@ -18,7 +18,10 @@ const App = () => {
     <BrowserRouter>
       <Navbar />
       <Routes>
-        <Route path="/" element={<SplashScreen />} />
+        <Route
+          path="/"
+          element={loggedIn ? <HomeScreen /> : <SplashScreen />}
+        />
         {loggedIn === false && (
           <>
             <Route path="/login" Component={Login} />

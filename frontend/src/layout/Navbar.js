@@ -8,18 +8,19 @@ import { FaUser } from "react-icons/fa";
 import AuthContext from "../context/AuthContext";
 import UserContext from "../context/UserContext";
 
-const Navbar = (props) => {
+const Navbar = () => {
   const navigate = useNavigate();
   const [menu, setMenu] = useState(false);
   const { loggedIn, getLoggedIn } = useContext(AuthContext);
 
   const { userData } = useContext(UserContext);
+
   const fullName = userData.firstName + " " + userData.lastName;
-  sessionStorage.setItem("user", fullName);
   const role = userData.role;
 
   const handleLogout = async () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("AuthenticatedUser");
     await getLoggedIn();
     navigate("/");
   };

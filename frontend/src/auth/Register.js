@@ -14,13 +14,13 @@ import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormLabel from "@mui/material/FormLabel";
-import axios from "axios";
 import { useSnackbar } from "notistack";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
+import axios from "axios";
 
 const Register = () => {
-  const { getLoggedIn } = useContext(AuthContext);
+  const { getLoggedIn, loggedIn } = useContext(AuthContext);
   const { enqueueSnackbar } = useSnackbar();
   const navigate = useNavigate();
   const intialState = {
@@ -37,8 +37,6 @@ const Register = () => {
   const [formData, setFormData] = React.useState(intialState);
   const [showPassword, setShowPassword] = React.useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
-
-  const [rowData, setRowData] = React.useState();
 
   const [errors, setErrors] = useState({
     firstName: "",
@@ -114,7 +112,6 @@ const Register = () => {
     return isValid;
   };
 
-  const SERVER_PORT = "http://localhost:4000";
   const handleOnSubmit = (e) => {
     e.preventDefault();
 
@@ -124,7 +121,7 @@ const Register = () => {
 
     console.log(formData);
     axios
-      .post(`${SERVER_PORT}/createuser`, {
+      .post(`http://localhost:4000/createuser`, {
         firstName: formData.firstName,
         lastName: formData.lastName,
         email: formData.email,
@@ -135,8 +132,9 @@ const Register = () => {
         active: formData.active,
       })
       .then((response) => {
-        const { token } = response.data || {};
+        const { token, result } = response.data || {};
         localStorage.setItem("token", token);
+        localStorage.setItem("AuthenticatedUser", JSON.stringify(result));
         setFormData(intialState);
         if (response.data.message) {
           console.log(response.data.message);
@@ -155,6 +153,8 @@ const Register = () => {
 
   return (
     <div>
+      {loggedIn && <Navigate to="/userData" />}
+
       <div className="shadow-md p-5 md:w-96 w-fit mx-auto mt-10 flex items-center justify-center h-full">
         <form method="post" onSubmit={(e) => handleOnSubmit(e)}>
           <h1 className="text-center font-semibold text-blue-800 text-2xl">

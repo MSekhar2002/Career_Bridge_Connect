@@ -10,32 +10,25 @@ const UserContextProvider = (props) => {
   const [userData, setUserData] = React.useState([]);
   //username
   const userToken = localStorage.getItem("token");
-  React.useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const response = await axios.get("http://localhost:4000/loggedin", {
-          headers: {
-            Authorization: `Bearer ${userToken}`,
-          },
-        });
-        const { foundUser } = response.data || {};
-        setUserData(foundUser);
-      } catch (error) {
-        console.error("Error on fetch user:", error);
-      }
-    };
 
+  const getUserData = () => {
+    const newData = JSON.parse(localStorage.getItem("AuthenticatedUser"));
+    setUserData(newData);
+  };
+  React.useEffect(() => {
     if (loggedIn === true && userToken) {
-      fetchUser();
+      getUserData();
     }
   }, [loggedIn, userToken]);
 
+
   return (
-    <UserContext.Provider value={{ userData }}>
+    <UserContext.Provider value={{ userData, getUserData }}>
       {props.children}
     </UserContext.Provider>
   );
 };
 
 export default UserContext;
+
 export { UserContextProvider };

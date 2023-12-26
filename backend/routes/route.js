@@ -9,15 +9,12 @@ const {
   loggedIn,
 } = require("../controllers/userController");
 
-const { requireAuth } = require("../middleware/requireAuth.js");
+const { requireAuth } = require("../middleware/requireAuth");
 
-// router.use(requireAuth); // Use the checkUser middleware globally
-
-router.get("/getuser", getUser);
+router.get("/getuser", requireAuth, getUser);
 router.post("/createuser", createUser);
-router.patch("/updateuser/:id", updateUser);
-router.delete("/deleteuser/:id", deleteUser);
+router.patch("/updateuser/:id", requireAuth, updateUser);
+router.delete("/deleteuser/:id", requireAuth, deleteUser);
 router.post("/login", loginUser);
-router.get("/loggedin", requireAuth, loggedIn);
 
 module.exports = router;

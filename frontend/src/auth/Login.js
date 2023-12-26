@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Visibility from "@mui/icons-material/Visibility";
@@ -8,10 +8,10 @@ import IconButton from "@mui/material/IconButton";
 import axios from "axios";
 import { useSnackbar } from "notistack";
 import AuthContext from "../context/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const Login = () => {
-  const { getLoggedIn } = useContext(AuthContext);
+  const { getLoggedIn, loggedIn } = useContext(AuthContext);
   const { enqueueSnackbar } = useSnackbar();
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = React.useState(false);
@@ -76,12 +76,16 @@ const Login = () => {
         .post("http://localhost:4000/login", loginData)
         .then((response) => {
           console.log(response.data);
-          const { token } = response.data || {};
+          const { token, loginuser } = response.data || {};
           localStorage.setItem("token", token);
+          localStorage.setItem("AuthenticatedUser", JSON.stringify(loginuser));
         });
       getLoggedIn();
       enqueueSnackbar("Login successful", { variant: "success" });
-      navigate("/userData");
+      const userToken = localStorage.getItem("token");
+      if (userToken) {
+        navigate("/userData");
+      }
       setResult(true);
     } catch (error) {
       enqueueSnackbar(error.response.data.message, { variant: "error" });
@@ -90,6 +94,7 @@ const Login = () => {
 
   return (
     <div>
+      {loggedIn && <Navigate to="/userData" />}
       <div className="shadow-md p-5 w-96 mx-auto mt-10 flex items-center justify-center h-full">
         <form onSubmit={handleOnSubmit}>
           <h1 className="text-center font-semibold text-blue-800 text-2xl">

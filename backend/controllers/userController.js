@@ -114,29 +114,14 @@ const loginUser = async (req, res) => {
   }
 };
 
-//loggedin
-const loggedIn = async (req, res) => {
-  const userData = res.locals;
-  const { _id } = userData.user;
-  try {
-    const foundUser = await user.findOne({ _id: _id }); // Assuming your model is named User
-    console.log(foundUser);
-
-    res
-      .status(200)
-      .json({ message: "Authorized person", foundUser: foundUser });
-  } catch (error) {
-    console.error(error);
-    res.status(502).json({ message: "Server Error" });
-  }
-};
-
-//update
 const updateUser = async (req, res) => {
   try {
-    const updatedUserData = req.body; // Assuming the updated data is sent in the request body
-    const { id } = req.params;
-    const updatedUser = await user.findByIdAndUpdate(id, updatedUserData, {
+    const { _id, ...updateData } = req.body; // Assuming the updated data is sent in the request body
+
+    console.log("Data :", updateData);
+    console.log("Id :", _id);
+
+    const updatedUser = await user.findByIdAndUpdate(_id, updateData, {
       new: true,
     });
 
@@ -144,12 +129,15 @@ const updateUser = async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    res.status(200).json({ message: "Updated successfully" });
+    res
+      .status(200)
+      .json({ message: "Updated successfully", user: updatedUser });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
+
 //delete
 const deleteUser = async (req, res) => {
   try {
@@ -177,5 +165,4 @@ module.exports = {
   updateUser,
   deleteUser,
   loginUser,
-  loggedIn,
 };

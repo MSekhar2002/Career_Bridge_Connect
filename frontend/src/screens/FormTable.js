@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from "react";
 import { AgGridReact } from "ag-grid-react";
-import axios from "axios";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -21,6 +20,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import instance from "../axios/axios";
 
 import {
   IconButton,
@@ -111,11 +111,9 @@ const FormTable = () => {
     setSubmissionsOpen(false);
   };
 
-  const URI = "http://localhost:4000";
-
   const getFormData = async () => {
     try {
-      const response = await axios.get(`${URI}/form/getform`);
+      const response = await instance.get("/form/getform");
       const { data } = response.data || {};
       setUser(data);
     } catch (error) {
@@ -202,7 +200,7 @@ const FormTable = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`${URI}/form/deleteform/${id}`);
+      await instance.delete(`/form/deleteform/${id}`);
       console.log("Form deleted successfully");
       getFormData();
     } catch (error) {
@@ -234,8 +232,8 @@ const FormTable = () => {
         ...submissions,
       };
 
-      await axios
-        .post(`${URI}/form/addsubmission/${_id}`, {
+      await instance
+        .post(`/form/addsubmission/${_id}`, {
           submissions: newSubmission,
         })
         .then((response) => {

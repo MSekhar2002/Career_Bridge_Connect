@@ -9,6 +9,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import axios from "axios";
+import instance from "../axios/axios";
 
 const UpdateForms = ({ updateData, onDataFormUpdate, onDataFormClose }) => {
   const oldForm = [updateData];
@@ -51,7 +52,6 @@ const UpdateForms = ({ updateData, onDataFormUpdate, onDataFormClose }) => {
       },
     ]);
   };
-  const URI = "http://localhost:4000";
   const handleChange = (index, event) => {
     const newFields = [...addedFields];
     newFields[index][event.target.name] = event.target.value;
@@ -99,8 +99,8 @@ const UpdateForms = ({ updateData, onDataFormUpdate, onDataFormClose }) => {
 
     await onDataFormUpdate(formData);
 
-    await axios
-      .patch(`${URI}/form/updateform/${id}`, {
+    await instance
+      .patch(`/form/updateform/${id}`, {
         formStructure: formData?.formStructure,
         formName: formData?.formName,
       })
@@ -157,7 +157,9 @@ const UpdateForms = ({ updateData, onDataFormUpdate, onDataFormClose }) => {
                   onChange={(event) => handleChange(index, event)}
                   className="form-radio"
                 />
-                <label htmlFor={option} className="mx-2">{option}</label>
+                <label htmlFor={option} className="mx-2">
+                  {option}
+                </label>
                 {field.edit && (
                   <Button
                     onClick={() => handleDelete(index, option)}

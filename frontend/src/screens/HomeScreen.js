@@ -2,7 +2,6 @@ import React, { useState, useRef, useMemo, useContext } from "react";
 import { AgGridReact } from "ag-grid-react"; // the AG Grid React Component
 import "ag-grid-community/styles/ag-grid.css"; // Core grid CSS, always needed
 import "ag-grid-community/styles/ag-theme-alpine.css"; // Optional theme CSS
-import axios from "axios";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import IconButton from "@mui/material/IconButton";
@@ -22,8 +21,8 @@ import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormLabel from "@mui/material/FormLabel";
-import { Link } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
+import instance from "../axios/axios";
 
 const HomeScreen = (props) => {
   //dialog
@@ -59,11 +58,10 @@ const HomeScreen = (props) => {
   );
 
   const { loggedIn } = useContext(AuthContext);
-
-  const URL = "http://localhost:4000";
-  const userData = async () => {
+  const token = localStorage.getItem("token");
+  const fetchData = async () => {
     try {
-      const response = await axios.get(`${URL}/getuser`);
+      const response = await instance.get(`/getuser`);
       const { db } = response.data || {};
       setRowData(db);
     } catch (err) {
@@ -72,10 +70,11 @@ const HomeScreen = (props) => {
   };
 
   React.useEffect(() => {
-    if (loggedIn === true) {
-      userData();
+    if (loggedIn && token) {
+      fetchData();
     }
-  }, [loggedIn]);
+  }, [loggedIn, token]);
+  // ...
 
   const [errors, setErrors] = useState({
     firstName: "",
@@ -111,27 +110,31 @@ const HomeScreen = (props) => {
     setErrors((prev) => ({ ...prev, [name]: "" }));
   };
 
-  const handleEdit = (data) => {
-    axios.patch(`${URL}/updateuser/:${data._id}`, data).then((res) => {
-      const { data = null } = res?.data || {};
-      if (data) {
-        setUpdateData((prev) => {
-          const arr = [...prev];
-          const index = arr.findIndex((x) => x._id === data?._id);
-          if (index !== -1) {
-            arr[index] = data;
-          }
-          return arr;
-        });
-      }
-      handleClose();
-      userData();
-    });
+  const handleEdit = (updatedData) => {
+    instance
+      .patch(`/updateuser/:${updatedData._id}`, updatedData)
+      .then((res) => {
+        const { user } = res?.data || {};
+        console.log("Response data:", user);
+        if (user) {
+          setRowData((prev) => {
+            const arr = [...prev];
+            const index = arr.findIndex((x) => x._id === user?._id);
+            if (index > -1) {
+              arr[index] = user;
+            } else {
+              console.log("User is not found");
+            }
+            return arr;
+          });
+        }
+        handleClose();
+      });
   };
 
   const handleDelete = (data) => {
-    axios
-      .delete(`${URL}/deleteuser/${data._id}`, data)
+    instance
+      .delete(`/deleteuser/${data._id}`, data)
       .then((res) => {
         console.log(data);
         setRowData((prevRowData) =>

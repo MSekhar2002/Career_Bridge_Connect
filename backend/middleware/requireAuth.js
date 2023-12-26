@@ -12,7 +12,8 @@ const requireAuth = async (req, res, next) => {
     req.token = token;
     next();
   } catch (error) {
-    return res.status(500).json({ message: error.message });
+    return res.status(500).json({ message: "Unauthorized User", error: error });
   }
 };
+
 module.exports = { requireAuth };

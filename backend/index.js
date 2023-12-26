@@ -6,6 +6,7 @@ const dotenv = require("dotenv");
 const Routes = require("./routes/route");
 const formRoutes = require("./routes/formRoute");
 const cookieParser = require("cookie-parser");
+const { requireAuth } = require("./middleware/requireAuth");
 
 const app = express();
 app.use(
@@ -26,11 +27,9 @@ mongoose
   .then(() => console.log("DB Connected"))
   .catch((err) => console.error("DB Connection Error:", err));
 
-
-
 // Routes
 app.use("/", Routes);
-app.use("/form", formRoutes);
+app.use("/form", requireAuth, formRoutes);
 
 // Listen
 app.listen(PORT, () => {
