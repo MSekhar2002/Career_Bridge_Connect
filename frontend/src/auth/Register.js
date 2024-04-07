@@ -18,6 +18,7 @@ import { useSnackbar } from "notistack";
 import { Navigate, useNavigate } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
 import axios from "axios";
+import instance from "../axios/axios";
 
 const Register = () => {
   const { getLoggedIn, loggedIn } = useContext(AuthContext);
@@ -112,7 +113,7 @@ const Register = () => {
     return isValid;
   };
 
-  const handleOnSubmit = (e) => {
+  const handleOnSubmit = async(e) => {
     e.preventDefault();
 
     if (!validateForm()) {
@@ -120,8 +121,7 @@ const Register = () => {
     }
 
     console.log(formData);
-    axios
-      .post(`http://localhost:4000/createuser`, {
+    await instance.post(`/createuser`, {
         firstName: formData.firstName,
         lastName: formData.lastName,
         email: formData.email,
@@ -140,7 +140,7 @@ const Register = () => {
           console.log(response.data.message);
           enqueueSnackbar(response.data.message, { variant: "success" });
           getLoggedIn();
-          navigate("/userData");
+          navigate("/userhome");
         }
       })
       .catch((err) => {
@@ -153,7 +153,7 @@ const Register = () => {
 
   return (
     <div>
-      {loggedIn && <Navigate to="/userData" />}
+      {loggedIn && <Navigate to="/userhome" />}
 
       <div className="shadow-md p-5 md:w-96 w-fit mx-auto mt-10 flex items-center justify-center h-full">
         <form method="post" onSubmit={(e) => handleOnSubmit(e)}>
@@ -248,10 +248,9 @@ const Register = () => {
               label="Active"
               error={errors.role}
             >
-              <MenuItem value="Owner">Owner</MenuItem>
-              <MenuItem value="Super Admin">Super Admin</MenuItem>
-              <MenuItem value="Admin">Admin</MenuItem>
-              <MenuItem value="Manager">Manager</MenuItem>
+              <MenuItem value="student">Student</MenuItem>
+              <MenuItem value="company">Company</MenuItem>
+              
             </Select>
             {errors.role && (
               <span style={{ color: "red", fontSize: "0.75rem" }}>

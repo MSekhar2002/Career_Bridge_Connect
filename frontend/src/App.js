@@ -10,6 +10,9 @@ import SplashScreen from "./screens/SplashScreen";
 import AddForms from "./screens/AddForms";
 import FormTable from "./screens/FormTable";
 import Navbar from "./layout/Navbar";
+import HomePage from "./components/HomePage";
+import Footer from "./layout/Footer";
+import StudentHomePage from "./components/UserHomePage";
 
 axios.defaults.withCredentials = true;
 const App = () => {
@@ -20,7 +23,7 @@ const App = () => {
       <Routes>
         <Route
           path="/"
-          element={loggedIn ? <HomeScreen /> : <SplashScreen />}
+          element={<HomePage/>}
         />
         {loggedIn === false && (
           <>
@@ -31,12 +34,14 @@ const App = () => {
         )}
         {loggedIn === true && (
           <>
-            <Route path="/userData" Component={HomeScreen} />
-            <Route path="/addforms" element={<AddForms />} />
-            <Route path="/formtable" element={<FormTable />} />
+            <Route path="/userhome" Component={StudentHomePage} />
+            
+            <Route path="*" element={<ClientSideErrorScreen />} />
+
           </>
         )}
       </Routes>
+      <Footer/>
     </BrowserRouter>
   );
 };

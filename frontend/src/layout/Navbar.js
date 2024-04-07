@@ -43,8 +43,9 @@ const Navbar = () => {
           className="w-10 h-10"
           alt="Interns"
         />
-        <span className="text-2xl font-semibold ">Interns</span>
-        <span className="text-blue-500 text-2xl mx-1">FLOW</span>
+        <span className="text-blue-400 text-2xl font-semibold mx-1">Carrier</span>
+        <span className="text-blue-500 text-2xl font-semibold mx-1">Bridge </span>
+        <span className="text-blue-600 text-2xl font-semibold mx-1">Connect </span>
       </a>
 
       <div>
@@ -93,7 +94,7 @@ const Navbar = () => {
                     LinkComponent={Link}
                     to="/login"
                   >
-                    Sign In
+                    Log In
                   </Button>
                 </li>
                 <li className="md:mx-3 my-2">
@@ -103,7 +104,7 @@ const Navbar = () => {
                     LinkComponent={Link}
                     to="/register"
                   >
-                    Sign Up
+                    Register
                   </Button>
                 </li>
               </ul>
@@ -171,7 +172,7 @@ const Navbar = () => {
                           LinkComponent={Link}
                           to="/login"
                         >
-                          Sign In
+                          Log In
                         </Button>
                       </li>
                       <li className="md:mx-3 my-2">
@@ -181,7 +182,7 @@ const Navbar = () => {
                           LinkComponent={Link}
                           to="/register"
                         >
-                          Sign Up
+                          Register
                         </Button>
                       </li>
                     </ul>
