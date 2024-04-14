@@ -15,7 +15,7 @@ const Navbar = () => {
 
   const { userData } = useContext(UserContext);
 
-  const fullName = userData.firstName + " " + userData.lastName;
+  const fullName = userData.firstName;
   const role = userData.role;
 
   const handleLogout = async () => {

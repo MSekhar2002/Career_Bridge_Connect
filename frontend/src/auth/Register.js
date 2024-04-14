@@ -26,13 +26,10 @@ const Register = () => {
   const navigate = useNavigate();
   const intialState = {
     firstName: "",
-    lastName: "",
     email: "",
     password: "",
     confirmPassword: "",
-    gender: "",
     role: "",
-    age: "",
     active: false,
   };
   const [formData, setFormData] = React.useState(intialState);
@@ -41,12 +38,10 @@ const Register = () => {
 
   const [errors, setErrors] = useState({
     firstName: "",
-    lastName: "",
     email: "",
     password: "",
     confirmPassword: "",
     role: "",
-    age: "",
   });
 
   const togglePasswordVisibility = () => {
@@ -75,10 +70,7 @@ const Register = () => {
       isValid = false;
     }
 
-    if (formData.lastName.trim() === "") {
-      newErrors.lastName = "Last Name is required";
-      isValid = false;
-    }
+    
 
     if (formData.email.trim() === "") {
       newErrors.email = "Email is required";
@@ -101,13 +93,7 @@ const Register = () => {
       isValid = false;
     }
 
-    if (formData.age.trim() === "") {
-      newErrors.age = "Age is required";
-      isValid = false;
-    } else if (isNaN(formData.age) || formData.age <= 0) {
-      newErrors.age = "Invalid age";
-      isValid = false;
-    }
+    
 
     setErrors(newErrors);
     return isValid;
@@ -123,12 +109,9 @@ const Register = () => {
     console.log(formData);
     await instance.post(`/createuser`, {
         firstName: formData.firstName,
-        lastName: formData.lastName,
         email: formData.email,
         password: formData.password,
-        gender: formData.gender,
         role: formData.role,
-        age: formData.age,
         active: formData.active,
       })
       .then((response) => {
@@ -164,24 +147,14 @@ const Register = () => {
             margin="dense"
             value={formData.firstName}
             onChange={(e) => handleOnChange(e)}
-            label="First Name"
+            label="Name"
             name="firstName"
             variant="outlined"
             fullWidth
             error={errors.firstName}
             helperText={errors.firstName}
           />
-          <TextField
-            margin="dense"
-            label="Last Name"
-            value={formData.lastName}
-            variant="outlined"
-            name="lastName"
-            onChange={(e) => handleOnChange(e)}
-            fullWidth
-            error={errors.lastName}
-            helperText={errors.lastName}
-          />
+          
           <TextField
             margin="dense"
             label="Email"
@@ -271,19 +244,8 @@ const Register = () => {
               <label>Active</label>
             </div>
           </div>
-          <TextField
-            margin="dense"
-            label="Age"
-            type="number"
-            name="age"
-            value={formData.age}
-            onChange={(e) => handleOnChange(e)}
-            variant="outlined"
-            fullWidth
-            error={errors.age}
-            helperText={errors.age}
-          />
-          <FormControl margin="dense">
+          
+          {/* <FormControl margin="dense">
             <FormLabel id="demo-radio-buttons-group-label">Gender</FormLabel>
             <RadioGroup
               aria-labelledby="demo-radio-buttons-group-label"
@@ -304,7 +266,7 @@ const Register = () => {
                 label="Other"
               />
             </RadioGroup>
-          </FormControl>
+          </FormControl> */}
 
           <div className="my-5">
             <Button variant="contained" color="primary" fullWidth type="submit">

@@ -28,7 +28,7 @@ const getUser = async (req, res) => {
 //registration
 const createUser = async (req, res) => {
   try {
-    const { firstName, lastName, email, password, gender, age, active, role } =
+    const { firstName, email, password, active, role } =
       req.body || {};
     console.log("Request Body:", req.body);
     const existingUser = await user.findOne({ email });
@@ -39,21 +39,15 @@ const createUser = async (req, res) => {
     }
     if (
       !firstName ||
-      !lastName ||
       !email ||
       !password ||
-      !gender ||
-      !age ||
       active === undefined ||
       !role
     ) {
       console.log("Invalid Data:", {
         firstName,
-        lastName,
         email,
         password,
-        gender,
-        age,
         active,
         role,
       });
@@ -65,11 +59,8 @@ const createUser = async (req, res) => {
     const hashedpassword = await bcrypt.hash(password, salt);
     const newUser = new user({
       firstName,
-      lastName,
       email,
       password: hashedpassword,
-      gender,
-      age,
       role,
       active,
     });
