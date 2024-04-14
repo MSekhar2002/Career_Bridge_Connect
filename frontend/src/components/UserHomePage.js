@@ -23,8 +23,8 @@ console.log(userData);
             </div>
             <div className="bg-white rounded-lg shadow-md p-6">
               <h2 className="text-2xl font-semibold text-gray-800 mb-4">Explore Companies</h2>
-              <p className="text-gray-700 mb-4">Discover a variety of fields and industries to explore based on your interests, passions, and skills.</p>
-              <a href="/areas_of_interest" className="inline-block px-6 py-3 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600 transition duration-300 ease-in-out">Explore Now</a>
+              <p className="text-gray-700 mb-4">Explore companies available based on your interests, passions, and skills.</p>
+              <a href="/companylist" className="inline-block px-6 py-3 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600 transition duration-300 ease-in-out">Explore Now</a>
             </div>
           </div>
           <div className="mt-12">

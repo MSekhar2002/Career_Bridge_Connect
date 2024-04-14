@@ -27,13 +27,14 @@ const Navbar = () => {
 
   const navLinks = [
     {
-      name: "Users",
-      to: "/userData",
+      name: "Home",
+      to: "/",
     },
     {
-      name: "Forms",
-      to: "/formtable",
+      name: "Profile",
+      to: "/",
     },
+    
   ];
   return (
     <nav className="bg-white w-full sticky top-0 z-50 flex justify-between items-center py-3 shadow-sm ">
@@ -43,7 +44,7 @@ const Navbar = () => {
           className="w-10 h-10"
           alt="Interns"
         />
-        <span className="text-blue-400 text-2xl font-semibold mx-1">Carrier</span>
+        <span className="text-blue-400 text-2xl font-semibold mx-1">Career</span>
         <span className="text-blue-500 text-2xl font-semibold mx-1">Bridge </span>
         <span className="text-blue-600 text-2xl font-semibold mx-1">Connect </span>
       </a>
@@ -142,8 +143,8 @@ const Navbar = () => {
 
                     <li className="md:mx-3 my-2">
                       <h1 className="my-3">Welcome</h1>
-                      <span className="text-blue-700">{fullName}</span>
-                      <FaUser className="m-1" />
+                     <div className="flex"> <span className="text-blue-700">{fullName}</span>
+                      <FaUser className="m-1" /></div>
                       <span className="text-blue-700 font-semibold">
                         {role}
                       </span>
