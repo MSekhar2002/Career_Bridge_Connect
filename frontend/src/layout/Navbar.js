@@ -32,7 +32,7 @@ const Navbar = () => {
     },
     {
       name: "Profile",
-      to: "/",
+      to: "/profile",
     },
     
   ];

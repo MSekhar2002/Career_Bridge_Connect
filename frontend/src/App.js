@@ -17,6 +17,7 @@ import CompaniesPage from "./components/CompanyList";
 import SkillRequirementsPage from "./components/SkillRequiremnet";
 import OurTeamPage from "./components/Team";
 import ContactUsPage from "./components/ContactUs";
+import ProfilePage from "./components/ProfilePage";
 
 axios.defaults.withCredentials = true;
 const App = () => {
@@ -49,6 +50,7 @@ const App = () => {
             <Route path="/intrest" Component={AreasOfInterestPage} />
             <Route path="/companylist" Component={CompaniesPage} />
             <Route path="/requirement" Component={SkillRequirementsPage} />
+            <Route path="/profile" Component={ProfilePage} />
             
             
             <Route path="*" element={<ClientSideErrorScreen />} />
