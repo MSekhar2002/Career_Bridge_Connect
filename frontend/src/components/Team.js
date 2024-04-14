@@ -1,4 +1,5 @@
 import React from 'react';
+import muniSekharImage from './images/Sekhar.jpeg'
 
 const OurTeamPage = () => {
     // Sample data for team members
@@ -8,13 +9,13 @@ const OurTeamPage = () => {
             name: 'Muni Sekhar',
             position: 'Developer',
             bio: 'Muni Sekhar is a passionate developer with expertise in frontend and backend technologies. He enjoys solving complex problems and building scalable applications that make a positive impact.',
-            // image: muniSekharImage
+            image: muniSekharImage
         },
         {
-            name: 'Saiv Kumar',
+            name: 'Sai Kumar',
             position: 'Developer',
             bio: 'Saiv Kumar is a dedicated developer with a focus on frontend development. He loves experimenting with new technologies and creating intuitive user experiences.',
-            // image: saivKumarImage
+            // image: saiKumarImage
         },
         {
             name: 'Vivek',
@@ -36,7 +37,7 @@ const OurTeamPage = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
                 {teamMembers.map(member => (
                     <div key={member.name} className="bg-white rounded-lg shadow-md overflow-hidden">
-                        <img className="w-full h-48 object-cover object-center" src="#" alt={member.name} />
+                        <img className="w-full h-48 object-cover object-center" src={member?.image} alt={member.name} />
                         <div className="p-6">
                             <h3 className="text-xl font-bold text-gray-900 mb-2">{member.name}</h3>
                             <p className="text-gray-600 mb-4">{member.position}</p>
