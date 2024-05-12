@@ -10,10 +10,6 @@ import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 import Checkbox from "@mui/material/Checkbox";
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import FormLabel from "@mui/material/FormLabel";
 import { useSnackbar } from "notistack";
 import { Navigate, useNavigate } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
@@ -25,19 +21,18 @@ const Register = () => {
   const { enqueueSnackbar } = useSnackbar();
   const navigate = useNavigate();
   const intialState = {
-    firstName: "",
+    name: "",
     email: "",
     password: "",
     confirmPassword: "",
     role: "",
-    active: false,
   };
   const [formData, setFormData] = React.useState(intialState);
   const [showPassword, setShowPassword] = React.useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
 
   const [errors, setErrors] = useState({
-    firstName: "",
+    name: "",
     email: "",
     password: "",
     confirmPassword: "",
@@ -64,9 +59,9 @@ const Register = () => {
     let isValid = true;
     const newErrors = { ...errors };
 
-    // Validate each field and update the errors state
-    if (formData.firstName.trim() === "") {
-      newErrors.firstName = "First Name is required";
+    // Validate each field and update the errors stateFpro
+    if (formData.name.trim() === "") {
+      newErrors.name = "First Name is required";
       isValid = false;
     }
 
@@ -108,11 +103,10 @@ const Register = () => {
 
     console.log(formData);
     await instance.post(`/createuser`, {
-        firstName: formData.firstName,
+        name: formData.name,
         email: formData.email,
         password: formData.password,
         role: formData.role,
-        active: formData.active,
       })
       .then((response) => {
         const { token, result } = response.data || {};
@@ -123,7 +117,7 @@ const Register = () => {
           console.log(response.data.message);
           enqueueSnackbar(response.data.message, { variant: "success" });
           getLoggedIn();
-          navigate("/userhome");
+          navigate("/");
         }
       })
       .catch((err) => {
@@ -136,7 +130,7 @@ const Register = () => {
 
   return (
     <div>
-      {loggedIn && <Navigate to="/userhome" />}
+      {loggedIn && <Navigate to="/" />}
 
       <div className="shadow-md p-5 md:w-96 w-fit mx-auto mt-10 flex items-center justify-center h-full">
         <form method="post" onSubmit={(e) => handleOnSubmit(e)}>
@@ -145,14 +139,14 @@ const Register = () => {
           </h1>
           <TextField
             margin="dense"
-            value={formData.firstName}
+            value={formData.name}
             onChange={(e) => handleOnChange(e)}
             label="Name"
-            name="firstName"
+            name="name"
             variant="outlined"
             fullWidth
-            error={errors.firstName}
-            helperText={errors.firstName}
+            error={errors.name}
+            helperText={errors.name}
           />
           
           <TextField
@@ -167,6 +161,25 @@ const Register = () => {
             error={errors.email}
             helperText={errors.email}
           />
+           <FormControl fullWidth margin="dense">
+            <InputLabel>Role</InputLabel>
+            <Select
+              value={formData.role}
+              name="role"
+              onChange={(e) => handleOnChange(e)}
+              label="Role"
+              error={errors.role}
+            >
+              <MenuItem value="student">Student</MenuItem>
+              <MenuItem value="company">Company</MenuItem>
+              
+            </Select>
+            {errors.role && (
+              <span style={{ color: "red", fontSize: "0.75rem" }}>
+                {errors.role}
+              </span>
+            )}
+          </FormControl>
           <TextField
             margin="dense"
             label="Password"
@@ -212,38 +225,9 @@ const Register = () => {
               ),
             }}
           />
-          <FormControl fullWidth margin="dense">
-            <InputLabel>Role</InputLabel>
-            <Select
-              value={formData.role}
-              name="role"
-              onChange={(e) => handleOnChange(e)}
-              label="Active"
-              error={errors.role}
-            >
-              <MenuItem value="student">Student</MenuItem>
-              <MenuItem value="company">Company</MenuItem>
-              
-            </Select>
-            {errors.role && (
-              <span style={{ color: "red", fontSize: "0.75rem" }}>
-                {errors.role}
-              </span>
-            )}
-          </FormControl>
+         
 
-          <div className="my-2">
-            <InputLabel>Active status</InputLabel>
-            <div>
-              <Checkbox
-                name="active"
-                checked={formData.active}
-                onChange={(e) => handleOnChange(e)}
-                color="success"
-              />
-              <label>Active</label>
-            </div>
-          </div>
+         
           
           {/* <FormControl margin="dense">
             <FormLabel id="demo-radio-buttons-group-label">Gender</FormLabel>

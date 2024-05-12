@@ -84,7 +84,7 @@ const Login = () => {
       enqueueSnackbar("Login successful", { variant: "success" });
       const userToken = localStorage.getItem("token");
       if (userToken) {
-        navigate("/userhome");
+        navigate("/");
       }
       setResult(true);
     } catch (error) {
@@ -94,7 +94,7 @@ const Login = () => {
 
   return (
     <div className="h-screen flex items-center justify-center">
-      {loggedIn && <Navigate to="/userhome" />}
+      {loggedIn && <Navigate to="/" />}
       <div className="shadow-md p-5 w-96 mx-auto mt-10 flex items-center justify-center ">
         <form onSubmit={handleOnSubmit}>
           <h1 className="text-center font-semibold text-blue-800 text-2xl">

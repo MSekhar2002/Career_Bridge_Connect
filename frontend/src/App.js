@@ -18,6 +18,7 @@ import SkillRequirementsPage from "./components/SkillRequiremnet";
 import OurTeamPage from "./components/Team";
 import ContactUsPage from "./components/ContactUs";
 import ProfilePage from "./components/ProfilePage";
+import Vivek from "./components/Vivek";
 
 axios.defaults.withCredentials = true;
 const App = () => {
@@ -26,40 +27,34 @@ const App = () => {
     <BrowserRouter>
       <Navbar />
       <Routes>
-        <Route
-          path="/"
-          element={<HomePage/>}
-        />
-        <Route path="/mission" Component={MissionPage} />
-        <Route path="/team" Component={OurTeamPage} />
-        <Route path="/contactus" Component={ContactUsPage} />
+        <Route path="/" element={<HomePage />} />
+        <Route path="/vivek" element={<Vivek />} />
+        <Route path="/mission" element={<MissionPage />} />
+        <Route path="/team" element={<OurTeamPage />} />
+        <Route path="/contactus" element={<ContactUsPage />} />
+
         {loggedIn === false && (
           <>
-            <Route path="/login" Component={Login} />
-            <Route path="/register" Component={Register} />
-            
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
             <Route path="*" element={<ClientSideErrorScreen />} />
-
-
           </>
         )}
+
         {loggedIn === true && (
           <>
-            <Route path="/userhome" Component={StudentHomePage} />
-            <Route path="/studentlist" Component={StudentList} />
-            <Route path="/intrest" Component={AreasOfInterestPage} />
-            <Route path="/companylist" Component={CompaniesPage} />
-            <Route path="/requirement" Component={SkillRequirementsPage} />
-            <Route path="/profile" Component={ProfilePage} />
-            
-            
+            <Route path="/userhome" element={<StudentHomePage />} />
+            <Route path="/studentlist" element={<StudentList />} />
+            <Route path="/intrest" element={<AreasOfInterestPage />} />
+            <Route path="/companylist" element={<CompaniesPage />} />
+            <Route path="/requirement" element={<SkillRequirementsPage />} />
+            <Route path="/profile" element={<ProfilePage />} />
             <Route path="*" element={<ClientSideErrorScreen />} />
-
-
           </>
         )}
       </Routes>
-      <Footer/>
+
+      <Footer />
     </BrowserRouter>
   );
 };

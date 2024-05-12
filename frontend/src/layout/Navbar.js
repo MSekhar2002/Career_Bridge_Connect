@@ -15,14 +15,21 @@ const Navbar = () => {
 
   const { userData } = useContext(UserContext);
 
-  const fullName = userData.firstName;
+  const fullName = userData.name;
   const role = userData.role;
 
   const handleLogout = async () => {
     localStorage.removeItem("token");
     localStorage.removeItem("AuthenticatedUser");
     await getLoggedIn();
-    navigate("/");
+    navigate("/login");
+  };
+  const capitalizeWords = (str) => {
+    const words = str?.split(" ");
+    const capitalizedWords = words?.map((word) => {
+      return word.charAt(0).toUpperCase() + word.slice(1);
+    });
+    return capitalizedWords?.join(" ");
   };
 
   const navLinks = [
@@ -64,15 +71,16 @@ const Navbar = () => {
               <li>
                 <h1 className="mx-3 text-red-500">Welcome</h1>
               </li>
-              <span className="text-blue-700">{fullName}</span>
               <FaUser className="m-1" />
-              <span className="text-blue-700 font-semibold">
-                {role ? role : null}
+              <span className="text-blue-700">{capitalizeWords(fullName)}</span>
+              <span className="text-blue-700 mx-3 font-semibold">
+                {role ? capitalizeWords(role) : null}
               </span>
               <li className="md:mx-3 my-2">
                 <Button
                   variant="contained"
                   color="error"
+                  size="small"
                   onClick={() => handleLogout()}
                   LinkComponent={Link}
                   to="/"
@@ -143,10 +151,10 @@ const Navbar = () => {
 
                     <li className="md:mx-3 my-2">
                       <h1 className="my-3">Welcome</h1>
-                     <div className="flex"> <span className="text-blue-700">{fullName}</span>
+                     <div className="flex"> <span className="text-blue-700">{capitalizeWords(fullName)}</span>
                       <FaUser className="m-1" /></div>
                       <span className="text-blue-700 font-semibold">
-                        {role}
+                        {capitalizeWords(role)}
                       </span>
                     </li>
                     <li className="md:mx-3 my-2">

@@ -10,21 +10,21 @@ const ContactUsPage = () => {
                         <div className="mb-6">
                             <p className="text-gray-700 leading-relaxed">
                                 Thank you for your interest in My Career Bridge Connect. We are here to help you bridge the gap
-                                between education and career. Please feel free to reach out to us for any inquiries, feedback, or assistance.
+                                between education and Career. Please feel free to reach out to us for any inquiries, feedback, or assistance.
                             </p>
                         </div>
                         <div className="mb-6">
                             <h2 className="text-xl font-semibold text-gray-800 mb-2">Address</h2>
                             <p className="text-gray-700 leading-relaxed">
-                                123 Bridge Avenue, Career Town, Connect City
+                                SSCET, Salem, Tamil Nadu, India
                             </p>
                         </div>
                         <div className="mb-6">
                             <h2 className="text-xl font-semibold text-gray-800 mb-2">Contact Details</h2>
                             <p className="text-gray-700 leading-relaxed">
-                                Phone: +123 456 7890<br />
-                                Email: info@mycareerbridgeconnect.com<br />
-                                Website: www.mycareerbridgeconnect.com
+                                Phone: +91 63040 22592<br />
+                                Email: cbcofficial007@gmail.com<br />
+                                Website: www.myCareerbridgeconnect.com
                             </p>
                         </div>
                         <form>

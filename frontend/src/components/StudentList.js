@@ -1,266 +1,138 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import instance from '../axios/axios';
+import AuthContext from '../context/AuthContext';
+import UserContext from '../context/UserContext';
+import { useSnackbar } from "notistack";
+import Autocomplete from '@mui/material/Autocomplete';
+import TextField from '@mui/material/TextField';
 
 function StudentList() {
-  // Dummy array of student data
-  const students = [
-    {
-      id: 1,
-      name: "Arjun Kumar",
-      areaOfInterest: "Computer Science",
-      grade: "10th",
-      school: "ABC High School",
-      city: "Chennai",
-      state: "Tamil Nadu",
-      country: "India",
-      email: "arjun.kumar@example.com",
-      phone: "+919876543210",
-    },
-    {
-      id: 2,
-      name: "Priya Singh",
-      areaOfInterest: "Biology",
-      grade: "11th",
-      school: "XYZ High School",
-      city: "Coimbatore",
-      state: "Tamil Nadu",
-      country: "India",
-      email: "priya.singh@example.com",
-      phone: "+919012345678",
-    },
-    // Add more Tamil Nadu student data as needed
-    {
-      id: 3,
-      name: "Aruna Ramesh",
-      areaOfInterest: "Mathematics",
-      grade: "12th",
-      school: "Government Higher Secondary School",
-      city: "Madurai",
-      state: "Tamil Nadu",
-      country: "India",
-      email: "aruna.ramesh@example.com",
-      phone: "+918765432109",
-    },
-    {
-      id: 4,
-      name: "Vishal Patel",
-      areaOfInterest: "Physics",
-      grade: "10th",
-      school: "St. Thomas Matriculation Higher Secondary School",
-      city: "Salem",
-      state: "Tamil Nadu",
-      country: "India",
-      email: "vishal.patel@example.com",
-      phone: "+917654321098",
-    },
-    {
-      id: 5,
-      name: "Deepika Rajan",
-      areaOfInterest: "Chemistry",
-      grade: "11th",
-      school: "Don Bosco Matriculation Higher Secondary School",
-      city: "Tiruchirappalli",
-      state: "Tamil Nadu",
-      country: "India",
-      email: "deepika.rajan@example.com",
-      phone: "+916543210987",
-    },
-    {
-      id: 6,
-      name: "Karthik Subramanian",
-      areaOfInterest: "History",
-      grade: "12th",
-      school: "Mahatma Gandhi Higher Secondary School",
-      city: "Tirunelveli",
-      state: "Tamil Nadu",
-      country: "India",
-      email: "karthik.subramanian@example.com",
-      phone: "+915432109876",
-    },
-    {
-      id: 7,
-      name: "Divya Menon",
-      areaOfInterest: "Geography",
-      grade: "10th",
-      school: "Kendriya Vidyalaya",
-      city: "Thanjavur",
-      state: "Tamil Nadu",
-      country: "India",
-      email: "divya.menon@example.com",
-      phone: "+914321098765",
-    },
-    {
-      id: 8,
-      name: "Ganesh Iyer",
-      areaOfInterest: "Economics",
-      grade: "11th",
-      school: "Sri Sankara Vidyalaya Matriculation Higher Secondary School",
-      city: "Vellore",
-      state: "Tamil Nadu",
-      country: "India",
-      email: "ganesh.iyer@example.com",
-      phone: "+913210987654",
-    },
-    {
-      id: 9,
-      name: "Shreya Sharma",
-      areaOfInterest: "Political Science",
-      grade: "12th",
-      school: "Everwin Matriculation Higher Secondary School",
-      city: "Erode",
-      state: "Tamil Nadu",
-      country: "India",
-      email: "shreya.sharma@example.com",
-      phone: "+912109876543",
-    },
-    {
-      id: 10,
-      name: "Rajesh Kumar",
-      areaOfInterest: "Computer Science",
-      grade: "10th",
-      school: "Maharishi Vidya Mandir",
-      city: "Tiruppur",
-      state: "Tamil Nadu",
-      country: "India",
-      email: "rajesh.kumar@example.com",
-      phone: "+911098765432",
-    },
-    {
-      id: 11,
-      name: "Nithya Venkatesh",
-      areaOfInterest: "Biology",
-      grade: "11th",
-      school: "Hindustan Matriculation Higher Secondary School",
-      city: "Dindigul",
-      state: "Tamil Nadu",
-      country: "India",
-      email: "nithya.venkatesh@example.com",
-      phone: "+910987654321",
-    },
-    {
-      id: 12,
-      name: "Anand Raj",
-      areaOfInterest: "Mathematics",
-      grade: "12th",
-      school: "Don Bosco Higher Secondary School",
-      city: "Namakkal",
-      state: "Tamil Nadu",
-      country: "India",
-      email: "anand.raj@example.com",
-      phone: "+919876543210",
-    },
-    {
-      id: 13,
-      name: "Vidya Krishnan",
-      areaOfInterest: "Physics",
-      grade: "10th",
-      school: "Sri Vijay Vidyalaya Higher Secondary School",
-      city: "Karur",
-      state: "Tamil Nadu",
-      country: "India",
-      email: "vidya.krishnan@example.com",
-      phone: "+918765432109",
-    },
-    {
-      id: 14,
-      name: "Suresh Menon",
-      areaOfInterest: "Chemistry",
-      grade: "11th",
-      school: "Bharathi Vidya Bhavan",
-      city: "Krishnagiri",
-      state: "Tamil Nadu",
-      country: "India",
-      email: "suresh.menon@example.com",
-      phone: "+917654321098",
-    },
-    {
-      id: 15,
-      name: "Ananya Iyer",
-      areaOfInterest: "History",
-      grade: "12th",
-      school: "St. Joseph's Matriculation Higher Secondary School",
-      city: "Tiruvannamalai",
-      state: "Tamil Nadu",
-      country: "India",
-      email: "ananya.iyer@example.com",
-      phone: "+916543210987",
-    },
-    {
-      id: 16,
-      name: "Gopalakrishnan Nair",
-      areaOfInterest: "Geography",
-      grade: "10th",
-      school: "Vivekananda Vidyalaya",
-      city: "Cuddalore",
-      state: "Tamil Nadu",
-      country: "India",
-      email: "gopalakrishnan.nair@example.com",
-      phone: "+915432109876",
-    },
-    {
-      id: 17,
-      name: "Akshay Patel",
-      areaOfInterest: "Economics",
-      grade: "11th",
-      school: "Sacred Heart Matriculation Higher Secondary School",
-      city: "Nagercoil",
-      state: "Tamil Nadu",
-      country: "India",
-      email: "akshay.patel@example.com",
-      phone: "+914321098765",
-    },
-    {
-      id: 18,
-      name: "Anusha Gupta",
-      areaOfInterest: "Political Science",
-      grade: "12th",
-      school: "Sri Chaitanya Techno School",
-      city: "Ranipet",
-      state: "Tamil Nadu",
-      country: "India",
-      email: "anusha.gupta@example.com",
-      phone: "+913210987654",
-    },
-    {
-      id: 19,
-      name: "Siddharth Menon",
-      areaOfInterest: "Computer Science",
-      grade: "10th",
-      school: "Bharathi Matriculation Higher Secondary School",
-      city: "Pollachi",
-      state: "Tamil Nadu",
-      country: "India",
-      email: "siddharth.menon@example.com",
-      phone: "+912109876543",
-    },
-    {
-      id: 20,
-      name: "Nandini Iyer",
-      areaOfInterest: "Biology",
-      grade: "11th",
-      school: "Sri Sankara Vidyalaya Matriculation Higher Secondary School",
-      city: "Kanchipuram",
-      state: "Tamil Nadu",
-      country: "India",
-      email: "nandini.iyer@example.com",
-      phone: "+911098765432",
-    },
-  ];
+  const [studentData, setStudentData] = React.useState([]);
+  const [filteredStudentData, setFilteredStudentData] = React.useState([]);
+  const [filters, setFilters] = React.useState({ areaOfInterest: '', location: '', school: '' });
+  const { loggedIn } = useContext(AuthContext);
+  const userToken = localStorage.getItem("token");
+  const { userData } = useContext(UserContext);
+  const { enqueueSnackbar } = useSnackbar();
+  console.log(filters);
+  console.log(filteredStudentData);
+  // Function to send email to student
+  const sendEmailToStudent = async (student) => {
+    try {
+      const response = await instance.post('/sendmail', { student, userData });
+      enqueueSnackbar(response.data.message, { variant: "success" });
+      console.log(response.data);
+      // Handle response accordingly
+    } catch (error) {
+      console.error('Error sending email:', error.message);
+      enqueueSnackbar(error.response.data.message, { variant: "error" });
+      // Handle error here
+    }
+  };
+
+  const getUserData = async () => {
+    try {
+      const response = await instance.get(`/getuser`);
+      const { db } = response?.data || {};
+      const UpdatedData = db?.filter(obj => obj?.role === "student");
+      setStudentData(UpdatedData);
+      setFilteredStudentData(UpdatedData);
+    } catch (error) {
+      console.error(error.message);
+      // Handle error here
+    }
+  };
+
+  const handleFilterChange = (event, value, filterKey) => {
+    setFilters(prevFilters => ({ ...prevFilters, [filterKey]: value }));
+  };
+
+  const filterStudentData = () => {
+    let filteredData = studentData;
+  
+    if (filters?.areaOfInterest) {
+      filteredData = filteredData.filter(student =>
+        student?.areaOfInterest?.toLowerCase()?.includes(filters?.areaOfInterest?.toLowerCase())
+      );
+    }
+  
+    if (filters?.address) {
+      filteredData = filteredData.filter(student =>
+        student?.address?.toLowerCase()?.includes(filters?.address?.toLowerCase())
+      );
+    }
+  
+    if (filters?.school) {
+      filteredData = filteredData.filter(student =>
+        student?.school?.toLowerCase()?.includes(filters?.school?.toLowerCase())
+      );
+    }
+  
+    setFilteredStudentData(filteredData);
+  };
+  
+
+
+  React.useEffect(() => {
+    if (loggedIn === true && userToken) {
+      getUserData();
+    }
+  }, [loggedIn, userToken]);
+
+  React.useEffect(() => {
+    filterStudentData();
+  }, [filters,]);
+
+  const handleSelectStudent = (studentEmail) => {
+    sendEmailToStudent(studentEmail);
+  };
 
   return (
-    <div className="bg-white rounded-lg shadow-md overflow-hidden px-3 py-10">
-      <div className="p-6">
+    <div className="flex flex-wrap">
+      <div className="w-full md:w-1/4 p-4">
+        <h2 className="text-xl font-semibold text-gray-800 mb-4">Filters</h2>
+        <Autocomplete
+          value={filters.areaOfInterest}
+          onChange={(event, newValue) => handleFilterChange(event, newValue, 'areaOfInterest')}
+          options={studentData?.map(student => ({ label: student?.areaOfInterest || '' }))} // Ensure each option has a 'label' property
+          renderInput={(params) => <TextField {...params} label="Area of Interest" />}
+        />
+
+        <Autocomplete
+          className='mt-2'
+
+          value={filters.location}
+          onChange={(event, newValue) => handleFilterChange(event, newValue, 'location')}
+          options={studentData?.map(student => ({ label: student?.address || '' }))} // Ensure each option has a 'label' property
+          renderInput={(params) => <TextField {...params} label="Location" />}
+        />
+
+        <Autocomplete
+          className='mt-2'
+          value={filters.school}
+          onChange={(event, newValue) => handleFilterChange(event, newValue, 'school')}
+          options={studentData?.map(student => ({ label: student?.school || '' }))} // Ensure each option has a 'label' property
+          renderInput={(params) => <TextField {...params} label="School" />}
+        />
+
+      </div>
+      <div className="w-full md:w-3/4 p-4">
         <h2 className="text-xl font-semibold text-gray-800 mb-4">List of Students</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {students.map((student) => (
-            <div key={student.id} className="bg-gray-100 rounded-lg p-4 hover:bg-gray-200 transition duration-300 ease-in-out">
-              <h3 className="text-lg font-semibold text-gray-800 mb-2">{student.name}</h3>
-              <p className="text-gray-600"><span className="font-semibold">Area of Interest:</span> {student.areaOfInterest}</p>
-              <p className="text-gray-600"><span className="font-semibold">Grade:</span> {student.grade}</p>
-              <p className="text-gray-600"><span className="font-semibold">School:</span> {student.school}</p>
-              <p className="text-gray-600"><span className="font-semibold">Location:</span> {student.city}, {student.state}, {student.country}</p>
-              <p className="text-gray-600"><span className="font-semibold">Email:</span> {student.email}</p>
-              <p className="text-gray-600"><span className="font-semibold">Phone:</span> {student.phone}</p>
-              <button className="mt-4 inline-block px-4 py-2 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600 transition duration-300 ease-in-out">Select Student</button>
+          {filteredStudentData?.map((student) => (
+            <div key={student?.id} className="bg-gray-100 rounded-lg p-4 hover:bg-gray-200 transition duration-300 ease-in-out">
+              <h3 className="text-lg font-semibold text-gray-800 mb-2">{student?.name}</h3>
+              <p className="text-gray-600"><span className="font-semibold">Area of Interest:</span> {student?.areaOfInterest}</p>
+              <p className="text-gray-600"><span className="font-semibold">School:</span> {student?.school}</p>
+              <p className="text-gray-600"><span className="font-semibold">Location:</span> {student?.location}</p>
+              <p className="text-gray-600"><span className="font-semibold">Email:</span> {student?.email}</p>
+              <p className="text-gray-600"><span className="font-semibold">Phone:</span> {student?.phoneNumber}</p>
+              <button
+                onClick={() => handleSelectStudent(student)} // Pass student email as parameter
+                className="mt-4 inline-block px-4 py-2 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600 transition duration-300 ease-in-out"
+              >
+                Select Student
+              </button>
             </div>
           ))}
         </div>

@@ -32,7 +32,7 @@ const HomeScreen = (props) => {
   const [rowData, setRowData] = useState(); // Set rowData to Array of Objects, one Object per Row
 
   const [updateData, setUpdateData] = useState({
-    firstName: "",
+    name: "",
     email: "",
     lastName: "",
     gender: "",
@@ -77,7 +77,7 @@ const HomeScreen = (props) => {
   // ...
 
   const [errors, setErrors] = useState({
-    firstName: "",
+    name: "",
     lastName: "",
     email: "",
     role: "",
@@ -148,7 +148,7 @@ const HomeScreen = (props) => {
 
   // Each Column Definition results in one Column.
   const columnDefs = [
-    { field: "firstName", filter: true },
+    { field: "name", filter: true },
     { field: "lastName", filter: true },
     { field: "email", filter: true },
     { field: "gender", filter: true },
@@ -194,9 +194,9 @@ const HomeScreen = (props) => {
             <TextField
               margin="dense"
               label="First Name"
-              name="firstName"
+              name="name"
               variant="outlined"
-              value={updateData.firstName}
+              value={updateData.name}
               onChange={handleOnChange}
               fullWidth
             />

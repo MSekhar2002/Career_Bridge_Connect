@@ -13,13 +13,13 @@ console.log(userData);
       {role==="student" && 
       <div className="container mx-auto py-8">
         <div className="text-center">
-          <h1 className="text-4xl font-bold text-gray-800 mb-4">Welcome to Carrier Bridge Connect</h1>
-          <p className="text-lg text-gray-700 mb-8">Empowering students to explore their interests and connect with future careers from an early age.</p>
+          <h1 className="text-4xl font-bold text-gray-800 mb-4">Welcome to Career Bridge Connect</h1>
+          <p className="text-lg text-gray-700 mb-8">Empowering students to explore their interests and connect with future Careers from an early age.</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
             <div className="bg-white rounded-lg shadow-md p-6">
               <h2 className="text-2xl font-semibold text-gray-800 mb-4">Explore Areas of Interest</h2>
               <p className="text-gray-700 mb-4">Discover a variety of fields and industries to explore based on your interests, passions, and skills.</p>
-              <a href="/areas_of_interest" className="inline-block px-6 py-3 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600 transition duration-300 ease-in-out">Explore Now</a>
+              <a href="/intrest" className="inline-block px-6 py-3 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600 transition duration-300 ease-in-out">Explore Now</a>
             </div>
             <div className="bg-white rounded-lg shadow-md p-6">
               <h2 className="text-2xl font-semibold text-gray-800 mb-4">Explore Companies</h2>
@@ -28,11 +28,11 @@ console.log(userData);
             </div>
           </div>
           <div className="mt-12">
-            <h2 className="text-3xl font-semibold text-gray-800 mb-8">Why Choose Carrier Bridge Connect?</h2>
+            <h2 className="text-3xl font-semibold text-gray-800 mb-8">Why Choose Career Bridge Connect?</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
               <div className="bg-white rounded-lg shadow-md p-6">
                 <h3 className="text-xl font-semibold text-gray-800 mb-4">Early Exposure to Careers</h3>
-                <p className="text-gray-700">Gain valuable real-world exposure to various career paths from a young age, helping you make informed decisions about your future.</p>
+                <p className="text-gray-700">Gain valuable real-world exposure to various Career paths from a young age, helping you make informed decisions about your future.</p>
               </div>
               <div className="bg-white rounded-lg shadow-md p-6">
                 <h3 className="text-xl font-semibold text-gray-800 mb-4">Personalized Recommendations</h3>
@@ -53,11 +53,11 @@ console.log(userData);
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
               <div className="bg-white rounded-lg shadow-md p-6">
                 <h3 className="text-xl font-semibold text-gray-800 mb-4">Career Assessments</h3>
-                <p className="text-gray-700">Take career assessments to identify your strengths, interests, and values, helping you make informed decisions about your future career path.</p>
+                <p className="text-gray-700">Take Career assessments to identify your strengths, interests, and values, helping you make informed decisions about your future Career path.</p>
               </div>
               <div className="bg-white rounded-lg shadow-md p-6">
                 <h3 className="text-xl font-semibold text-gray-800 mb-4">Mentorship Programs</h3>
-                <p className="text-gray-700">Join mentorship programs where experienced professionals provide guidance, support, and advice to help you navigate your career journey.</p>
+                <p className="text-gray-700">Join mentorship programs where experienced professionals provide guidance, support, and advice to help you navigate your Career journey.</p>
               </div>
               <div className="bg-white rounded-lg shadow-md p-6">
                 <h3 className="text-xl font-semibold text-gray-800 mb-4">Internship Opportunities</h3>
@@ -65,11 +65,11 @@ console.log(userData);
               </div>
               <div className="bg-white rounded-lg shadow-md p-6">
                 <h3 className="text-xl font-semibold text-gray-800 mb-4">Career Workshops</h3>
-                <p className="text-gray-700">Attend workshops and seminars on various career-related topics, including resume writing, interview skills, networking, and professional development.</p>
+                <p className="text-gray-700">Attend workshops and seminars on various Career-related topics, including resume writing, interview skills, networking, and professional development.</p>
               </div>
               <div className="bg-white rounded-lg shadow-md p-6">
                 <h3 className="text-xl font-semibold text-gray-800 mb-4">Scholarship Opportunities</h3>
-                <p className="text-gray-700">Explore scholarship opportunities to fund your education and support your career goals, ensuring that financial barriers do not hinder your success.</p>
+                <p className="text-gray-700">Explore scholarship opportunities to fund your education and support your Career goals, ensuring that financial barriers do not hinder your success.</p>
               </div>
               <div className="bg-white rounded-lg shadow-md p-6">
                 <h3 className="text-xl font-semibold text-gray-800 mb-4">Community Engagement</h3>
@@ -82,7 +82,7 @@ console.log(userData);
       {role==="company" && 
       <div className="container mx-auto py-8">
         <div className="text-center">
-          <h1 className="text-4xl font-bold text-gray-800 mb-4">Welcome to Carrier Bridge Connect company</h1>
+          <h1 className="text-4xl font-bold text-gray-800 mb-4">Welcome to Career Bridge Connect company</h1>
           <p className="text-lg text-gray-700 mb-8">Connecting companies with talented students from an early age.</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
             <div className="bg-white rounded-lg shadow-md p-6">
@@ -92,7 +92,7 @@ console.log(userData);
             </div>
           </div>
           <div className="mt-12">
-            <h2 className="text-3xl font-semibold text-gray-800 mb-8">Why Choose Carrier Bridge Connect?</h2>
+            <h2 className="text-3xl font-semibold text-gray-800 mb-8">Why Choose Career Bridge Connect?</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
               <div className="bg-white rounded-lg shadow-md p-6">
                 <h3 className="text-xl font-semibold text-gray-800 mb-4">Access to Talent Pool</h3>
@@ -121,7 +121,7 @@ console.log(userData);
               </div>
               <div className="bg-white rounded-lg shadow-md p-6">
                 <h3 className="text-xl font-semibold text-gray-800 mb-4">Mentorship Opportunities</h3>
-                <p className="text-gray-700">Provide mentorship opportunities for students, offering guidance and support to help them succeed in their chosen career paths.</p>
+                <p className="text-gray-700">Provide mentorship opportunities for students, offering guidance and support to help them succeed in their chosen Career paths.</p>
               </div>
               <div className="bg-white rounded-lg shadow-md p-6">
                 <h3 className="text-xl font-semibold text-gray-800 mb-4">Industry Partnerships</h3>
