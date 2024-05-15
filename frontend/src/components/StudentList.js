@@ -5,6 +5,7 @@ import UserContext from '../context/UserContext';
 import { useSnackbar } from "notistack";
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
+import './Vivek.css'
 
 function StudentList() {
   const [studentData, setStudentData] = React.useState([]);
@@ -56,9 +57,9 @@ function StudentList() {
       );
     }
   
-    if (filters?.address) {
+    if (filters?.location) {
       filteredData = filteredData.filter(student =>
-        student?.address?.toLowerCase()?.includes(filters?.address?.toLowerCase())
+        student?.address?.toLowerCase()?.includes(filters?.location?.toLowerCase())
       );
     }
   
@@ -81,12 +82,30 @@ function StudentList() {
 
   React.useEffect(() => {
     filterStudentData();
-  }, [filters,]);
+  }, [filters,filteredStudentData]);
 
   const handleSelectStudent = (studentEmail) => {
     sendEmailToStudent(studentEmail);
   };
-
+  const uniqueAreaOfInterest = Array.from(
+    new Set(
+      filteredStudentData?.flatMap(obj => obj?.areaOfInterest) // Flatten array of arrays
+        .filter(value => value !== undefined) // Filter out undefined values
+    )
+  );
+  const location = Array.from(
+    new Set(
+      filteredStudentData?.flatMap(obj => obj?.address) // Flatten array of arrays
+        .filter(value => value !== undefined) // Filter out undefined values
+    )
+  );
+  const school = Array.from(
+    new Set(
+      filteredStudentData?.flatMap(obj => obj?.school) // Flatten array of arrays
+        .filter(value => value !== undefined) // Filter out undefined values
+    )
+  );
+  console.log("h",uniqueAreaOfInterest);
   return (
     <div className="flex flex-wrap">
       <div className="w-full md:w-1/4 p-4">
@@ -94,16 +113,15 @@ function StudentList() {
         <Autocomplete
           value={filters.areaOfInterest}
           onChange={(event, newValue) => handleFilterChange(event, newValue, 'areaOfInterest')}
-          options={studentData?.map(student => ({ label: student?.areaOfInterest || '' }))} // Ensure each option has a 'label' property
+          options={uniqueAreaOfInterest || []} 
           renderInput={(params) => <TextField {...params} label="Area of Interest" />}
         />
 
         <Autocomplete
           className='mt-2'
-
           value={filters.location}
           onChange={(event, newValue) => handleFilterChange(event, newValue, 'location')}
-          options={studentData?.map(student => ({ label: student?.address || '' }))} // Ensure each option has a 'label' property
+          options={location|| []}
           renderInput={(params) => <TextField {...params} label="Location" />}
         />
 
@@ -111,7 +129,7 @@ function StudentList() {
           className='mt-2'
           value={filters.school}
           onChange={(event, newValue) => handleFilterChange(event, newValue, 'school')}
-          options={studentData?.map(student => ({ label: student?.school || '' }))} // Ensure each option has a 'label' property
+          options={school || []} 
           renderInput={(params) => <TextField {...params} label="School" />}
         />
 
@@ -124,7 +142,7 @@ function StudentList() {
               <h3 className="text-lg font-semibold text-gray-800 mb-2">{student?.name}</h3>
               <p className="text-gray-600"><span className="font-semibold">Area of Interest:</span> {student?.areaOfInterest}</p>
               <p className="text-gray-600"><span className="font-semibold">School:</span> {student?.school}</p>
-              <p className="text-gray-600"><span className="font-semibold">Location:</span> {student?.location}</p>
+              <p className="text-gray-600"><span className="font-semibold">Location:</span> {student?.address}</p>
               <p className="text-gray-600"><span className="font-semibold">Email:</span> {student?.email}</p>
               <p className="text-gray-600"><span className="font-semibold">Phone:</span> {student?.phoneNumber}</p>
               <button

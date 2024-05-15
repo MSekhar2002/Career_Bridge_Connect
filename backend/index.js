@@ -21,7 +21,7 @@ app.use(cookieParser());
 const PORT = process.env.PORT || 4000;
 dotenv.config();
 
-// DB connection
+// DB connection 
 mongoose
   .connect(process.env.MONGO_DB_URL)
   .then(() => console.log("DB Connected"))

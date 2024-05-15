@@ -1,5 +1,4 @@
 import React from 'react';
-
 const SkillRequirementsPage = () => {
     // Sample skill requirements for companies
     const skillRequirements = [

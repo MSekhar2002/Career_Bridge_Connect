@@ -14,8 +14,8 @@ const Login = () => {
   const { getLoggedIn, loggedIn } = useContext(AuthContext);
   const { enqueueSnackbar } = useSnackbar();
   const navigate = useNavigate();
-  const [showPassword, setShowPassword] = React.useState(false);
-  const [result, setResult] = React.useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [result, setResult] = useState(false);
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -44,6 +44,7 @@ const Login = () => {
 
   const validateForm = () => {
     let isValid = true;
+    
     const newErrors = { ...errors };
 
     // Validate each field and update the errors state

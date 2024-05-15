@@ -9,11 +9,9 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
-import Checkbox from "@mui/material/Checkbox";
 import { useSnackbar } from "notistack";
 import { Navigate, useNavigate } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
-import axios from "axios";
 import instance from "../axios/axios";
 
 const Register = () => {
